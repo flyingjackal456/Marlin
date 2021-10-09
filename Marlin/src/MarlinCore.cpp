@@ -113,6 +113,11 @@
   #include "feature/leds/leds.h"
 #endif
 
+#ifdef MTWLED
+  #include "extra/mtwled.h"
+  extern int MTWLED_control;
+#endif
+
 #if ENABLED(BLTOUCH)
   #include "feature/bltouch.h"
 #endif
@@ -1061,6 +1066,10 @@ void setup() {
   #if ENABLED(NEOPIXEL2_SEPARATE)
     SETUP_RUN(leds2.setup());
   #endif
+
+  //#ifdef MTWLED
+  //  MTWLEDSetup();
+  //#endif
 
   #if ENABLED(USE_CONTROLLER_FAN)     // Set up fan controller to initialize also the default configurations.
     SETUP_RUN(controllerFan.setup());

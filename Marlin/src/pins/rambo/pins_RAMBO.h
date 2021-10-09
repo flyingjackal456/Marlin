@@ -120,7 +120,7 @@
 //
 // Temperature Sensors
 //
-#define TEMP_0_PIN                             0  // Analog Input
+#define TEMP_0_PIN                             6   // Analog-EXT 3  for PT100 on E0
 #define TEMP_1_PIN                             1  // Analog Input
 #define TEMP_BED_PIN                           2  // Analog Input
 
