@@ -1067,9 +1067,9 @@ void setup() {
     SETUP_RUN(leds2.setup());
   #endif
 
-  //#ifdef MTWLED
-  //  MTWLEDSetup();
-  //#endif
+  #ifdef MTWLED
+    MTWLEDSetup();
+  #endif
 
   #if ENABLED(USE_CONTROLLER_FAN)     // Set up fan controller to initialize also the default configurations.
     SETUP_RUN(controllerFan.setup());
@@ -1319,6 +1319,10 @@ void loop() {
   do {
     idle();
 
+    #ifdef MTWLED
+      MTWLEDLogic();
+    #endif
+  
     #if ENABLED(SDSUPPORT)
       card.checkautostart();
       if (card.flag.abort_sd_printing) abortSDPrinting();

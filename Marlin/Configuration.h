@@ -741,7 +741,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 100, 100, 800, 99 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 100, 100, 800, 103.63 }
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -986,11 +986,11 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { -33, -35, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { -14, -32, -3.72 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 10
+#define PROBING_MARGIN 6
 
 // X and Y axis travel speed (mm/min) between probes
 #define XY_PROBE_SPEED (133*60)
@@ -1010,8 +1010,8 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-//#define MULTIPLE_PROBING 2
-//#define EXTRA_PROBING    1
+#define MULTIPLE_PROBING 2
+#define EXTRA_PROBING    1
 
 /**
  * Z probes require clearance when deploying, stowing, and moving between
@@ -1028,8 +1028,8 @@
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
 #define Z_CLEARANCE_DEPLOY_PROBE    5 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES  4 // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE     3 // Z Clearance between multiple probes
+#define Z_CLEARANCE_BETWEEN_PROBES  3 // Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE     2 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -3 // Farthest distance below the trigger-point to go before stopping
@@ -1039,7 +1039,7 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1093,8 +1093,8 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR false
-#define INVERT_E1_DIR false
+#define INVERT_E0_DIR true
+#define INVERT_E1_DIR true
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
 #define INVERT_E4_DIR false
@@ -1129,9 +1129,9 @@
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS -2
-#define X_MAX_POS X_BED_SIZE
-#define Y_MAX_POS Y_BED_SIZE
-#define Z_MAX_POS 180  // 8"
+#define X_MAX_POS 252   // X_BED_SIZE
+#define Y_MAX_POS 306   // Y_BED_SIZE
+#define Z_MAX_POS 180   // 8"
 
 /**
  * Software Endstops
@@ -1272,8 +1272,8 @@
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for the G26 Mesh Validation Tool.
     #define MESH_TEST_HOTEND_TEMP  220    // (°C) Default nozzle temperature for the G26 Mesh Validation Tool.
     #define MESH_TEST_BED_TEMP      60    // (°C) Default bed temperature for the G26 Mesh Validation Tool.
-    #define G26_XY_FEEDRATE         20    // (mm/s) Feedrate for XY Moves for the G26 Mesh Validation Tool.
-    #define G26_RETRACT_MULTIPLIER   1.0  // G26 Q (retraction) used by default between mesh test elements.
+    #define G26_XY_FEEDRATE         40    // (mm/s) Feedrate for XY Moves for the G26 Mesh Validation Tool.
+    #define G26_RETRACT_MULTIPLIER   3.0  // G26 Q (retraction) used by default between mesh test elements.
   #endif
 
 #endif
@@ -1313,8 +1313,8 @@
 
   #define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 22             // Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 3      // Don't use more than 15 points per axis, implementation limited.
+  #define MESH_INSET 5            // Set Mesh bounds as an inset region of the bed
+  #define GRID_MAX_POINTS_X 4      // Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   #define UBL_MESH_EDIT_MOVES_Z     // Sophisticated users prefer no movement of nozzle
@@ -1344,9 +1344,9 @@
 //#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
-  #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
-  #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
-  //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
+  #define MESH_EDIT_Z_STEP  0.025  // (mm) Step size while manually probing Z axis.
+  #define LCD_PROBE_Z_RANGE 0.5    // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
+  #define MESH_EDIT_MENU         // Add a menu to edit mesh points
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
@@ -2403,25 +2403,25 @@
 * MTW LED I2C controller support
 * Sponsored by Makers Tool Works
 **********************************************************************/
-#define MTWLED  // uncomment if using Makers Tool Works LED controller
+//#define MTWLED  // uncomment if using Makers Tool Works LED controller
 #ifdef MTWLED
 
-// patterns
-//                       pattern ID,red,green,blue
-#define mtwled_ready    10,0,30,0 // Marlin Ready
-#define mtwled_startup    10,30,30,30     // Marlin startup
-#define mtwled_temphit    14,40,40,40      // Hotend is at target temp
-#define mtwled_templow    10,0,40,0       // Hotend heater is slightly lower than target temp
-#define mtwled_temphigh   10,40,0,0 // Hotend heater is slightly higher than target temp
-#define mtwled_heateroff  11,0,0,40 // Hotend heater is off but still hot
+  // patterns
+  //                       pattern ID,red,green,blue
+  #define mtwled_ready    10,0,30,0 // Marlin Ready
+  #define mtwled_startup    10,30,30,30     // Marlin startup
+  #define mtwled_temphit    14,40,40,40      // Hotend is at target temp
+  #define mtwled_templow    10,0,40,0       // Hotend heater is slightly lower than target temp
+  #define mtwled_temphigh   10,40,0,0 // Hotend heater is slightly higher than target temp
+  #define mtwled_heateroff  11,0,0,40 // Hotend heater is off but still hot
 
-// option switches
-#define MTWLED_cool 35                          // The temp at which the hotend is considered cooled down and safe
-#define MTWLED_swing 4                          // how far off before the temperature is not considered 'at temp' in degrees C
-#define MTWLED_heatmode 2                       // animation type for heat=up pattern: 0=solid color 1=chasing 2=wipe 3=scanner
-#define MTWLED_printmode 0                      // animation type during printing: 0=templow/temphit/temphigh 1=XYZ position
-#define MTWLED_endstoptimer 5                   // how many seconds to display endstop status
-//#define MTWLED_disableheatup                  // uncomment to disable the percentile display as hotend heats up
+  // option switches
+  #define MTWLED_cool 35                          // The temp at which the hotend is considered cooled down and safe
+  #define MTWLED_swing 4                          // how far off before the temperature is not considered 'at temp' in degrees C
+  #define MTWLED_heatmode 2                       // animation type for heat=up pattern: 0=solid color 1=chasing 2=wipe 3=scanner
+  #define MTWLED_printmode 0                      // animation type during printing: 0=templow/temphit/temphigh 1=XYZ position
+  #define MTWLED_endstoptimer 5                   // how many seconds to display endstop status
+  //#define MTWLED_disableheatup                  // uncomment to disable the percentile display as hotend heats up
 #endif
 /*
 A pattern code is 4 bytes of data: the pattern ID plus one byte each for red, green, blue color values.

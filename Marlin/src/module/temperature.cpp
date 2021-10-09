@@ -40,6 +40,10 @@
   #include "../lcd/dwin/e3v2/dwin.h"
 #endif
 
+#ifdef MTWLED
+  #include "../extra/mtwled.h"
+#endif
+
 #if ENABLED(EXTENSIBLE_UI)
   #include "../lcd/extui/ui_api.h"
 #endif
@@ -1089,6 +1093,12 @@ void Temperature::manage_heater() {
     } // HOTEND_LOOP
 
   #endif // HAS_HOTEND
+  
+  #ifdef MTWLED
+    #ifndef MTWLED_disableheatup
+      MTWLEDTemp();
+    #endif
+  #endif
 
   #if HAS_AUTO_FAN
     if (ELAPSED(ms, next_auto_fan_check_ms)) { // only need to check fan state very infrequently

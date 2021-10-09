@@ -7,11 +7,11 @@
 //#include "Marlin.h"
 #ifdef MTWLED
 
-#if (ARDUINO >= 100)
-  # include "Arduino.h"
-#else
-  # include "WProgram.h"
-#endif
+  #if (ARDUINO >= 100)
+    # include "Arduino.h"
+  #else
+    # include "WProgram.h"
+  #endif
 
 #include "mtwled.h"
 #include "temperature.h"
@@ -56,8 +56,7 @@ void MTWLEDUpdate(byte pattern, byte red, byte green, byte blue, unsigned long t
 }
 
 void MTWLEDUpdate(patterncode pattern, unsigned long timer, int control) // send pattern frame via I2C
-{
-  byte sout[]={250,pattern.part[0],constrain(pattern.part[1],0,127),constrain(pattern.part[2],0,127),constrain(pattern.part[3],0,127)}; // build frame
+{  byte sout[]={250,pattern.part[0],constrain(pattern.part[1],0,127),constrain(pattern.part[2],0,127),constrain(pattern.part[3],0,127)}; // build frame
   
   if(control==2) { MTWLEDEndstop(true); return; }         // force endstop status display on C2
   if(control==254) { MTWLED_feedback=!MTWLED_feedback; return; }
@@ -165,7 +164,7 @@ void MTWLEDLogic() // called from main loop
     }
 }
 
-void MTWLEDTemp() // called from inside heater function while heater is on to do the percentile display
+void semp() // called from inside heater function while heater is on to do the percentile display
 {
 	byte percent;
         if(MTWLED_heated) return;
